@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
-// import axios from 'axios';
+import axios from 'axios';
+
 // import { Link } from 'react-router-dom'
 // import routes from '../../routes'
 
 export default class Form extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             image: "",
             productName: "",
             price: 0,
-            productID: null
+            productID: null,
+            inventoryList: [],
+            products: [],
         }
         this.onClickCancel = this.onClickCancel.bind(this)
         this.onClickAdd = this.onClickAdd.bind(this)
@@ -19,11 +22,17 @@ export default class Form extends Component {
         this.onChangePrice = this.onChangePrice.bind(this)
     }
 
-    // componentDidMount() {
-    //     console.log(this.props.match.params.product_id)
-    // }
+    componentDidMount() {
+        axios.get('/api/products')
+                .then(response => {
+                    console.log(response);
+                    this.setState({
+                        products: [...response.data]
+                    })
+                })
+    }
 
-//cancel reset
+//reset
     onClickCancel(e) {
         this.setState({
             image: "",
@@ -35,8 +44,12 @@ export default class Form extends Component {
     }
     
     onClickAdd(e) {
-        this.setState({
-            addToInventory: e.target.value
+        axios.post('/api/products')
+            .then(res=> {
+                console.log(res.data);
+            })
+            this.setState({
+                inventoryList: e.target.value
         })
     }
 
@@ -89,7 +102,10 @@ export default class Form extends Component {
                 <button onClick={() => this.onClickCancel()}>Cancel</button>
                     {/* If (this.state.currentProductID === currentProductID) */}
                     {/* <button onClick={() => this.updateProduct()}> Save </button> */}
-                <button onClick={() => this.onClickAdd()}> Add </button>
+                <button onClick={() => this.onClickAdd()}> Add to Inventory</button>
+
+
+                {this.state.products}
             </div>
         </div>
       </div>

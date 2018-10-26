@@ -14,9 +14,6 @@ massive( process.env.CONNECTION_STRING )
     })
     .catch( err => console.log(err) );
 
-
-
-
 app.post( '/api/products', controller.create);
 app.get( '/api/products', controller.getAll);
 app.get( '/api/products/:id', controller.getOne);

@@ -1,11 +1,13 @@
+let id = 0;
+
 module.exports = {
 
     create: (req, res, next) => {
         const dbInstance = req.app.get("db");
 
-        const {  name, description, price, imageurl  } = req.body; //destructure body
+        const {  product_name, description, price, img  } = req.body; //destructure body
 
-        dbInstance.create_product([    name, description, price, imageurl   ]) //
+        dbInstance.create_product([   product_name, description, price, img   ]) //
                     .then(() => res.sendStatus(200))
                     .catch(err => {
                         res.status(500).send({errorMessage: "Engineers Internal Server Error!"});
@@ -26,7 +28,7 @@ module.exports = {
                 console.log(err);
             });
     },
-
+//get all inventory
     getAll:(req, res, next) => {
         const dbInstance = req.app.get("db");
         dbInstance.read_products()
