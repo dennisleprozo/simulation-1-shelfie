@@ -30,6 +30,7 @@ export default class Form extends Component {
                         products: [...response.data]
                     })
                 })
+                console.log(this.state.products)
     }
 
 //reset
